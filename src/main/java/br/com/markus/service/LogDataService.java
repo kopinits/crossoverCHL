@@ -1,7 +1,6 @@
-package br.com.markus.business.impl;
+package br.com.markus.service;
 
-import br.com.markus.business.ILogDataBusiness;
-import br.com.markus.dao.ILogDataDAO;
+import br.com.markus.dao.LogDataDAO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.exception.LogDataException;
 import br.com.markus.exception.MultipleLogDataException;
@@ -20,30 +19,23 @@ import java.util.ArrayList;
  * @author Markus Kopinits
  */
 @Component
-public class LogDataBusiness implements ILogDataBusiness {
-
-    private ILogDataDAO logDataDAO;
-
-    public LogDataBusiness() {
-    }
+public class LogDataService {
 
     @Autowired
-    public LogDataBusiness(ILogDataDAO logDataDAO) {
-        this.logDataDAO = logDataDAO;
-    }
+    private LogDataDAO logDataDAO;
 
-    @Override
-    public void insertLogData(LogData logData) {
+
+    public void saveLogData(LogData logData) {
         checkException(validateLogData(logData));
-        logDataDAO.registerLog(convertLogData(logData));
+        logDataDAO.registerLog(toBasicObject(logData));
     }
 
-    @Override
+
     public ArrayList<LogData> getLogData(LogTypeEnum logTypeEnum) {
         return logDataDAO.retrieveLogData(logTypeEnum);
     }
 
-    @Override
+
     public String getJSONLogData(LogTypeEnum logTypeEnum) {
         return logDataDAO.retrieveJsonLogData(logTypeEnum);
     }
@@ -54,16 +46,8 @@ public class LogDataBusiness implements ILogDataBusiness {
         validateTimestamp(logData, errors);
         validateLogType(logData, errors);
         validateDataLogged(logData, errors);
+        validateCustumerID(logData, errors);
         return errors;
-    }
-
-    private BasicDBObject convertLogData(LogData logData) {
-        BasicDBObject dbObject = new BasicDBObject();
-        dbObject.put(LogData.APP_CODE, logData.getAppCode());
-        dbObject.put(LogData.TIMESTAMP, logData.getTimestamp().getTime());
-        dbObject.put(LogData.LOG_TYPE, logData.getLogType().getDescription());
-        dbObject.put(LogData.DATA_LOGGED, logData.getDataLogged());
-        return dbObject;
     }
 
     private void checkException(ArrayList<LogDataException> exceptions) {
@@ -90,9 +74,33 @@ public class LogDataBusiness implements ILogDataBusiness {
         }
     }
 
+    private void validateCustumerID(LogData logData, ArrayList<LogDataException> errors) {
+        if (logData.getLogType() != null) {
+            if (isCustumerType(logData)) {
+                if (StringUtils.isBlank(logData.getCustumerID())) {
+                    errors.add(new LogDataException(MessageConstants.CUSTUMER_ID_MISSING));
+                }
+            }
+        }
+    }
+
+    private boolean isCustumerType(LogData logData) {
+        return logData.getLogType().equals(LogTypeEnum.CSTM_PRDT_VIEW) || logData.getLogType().equals(LogTypeEnum.CSTM_SRCH_DONE);
+    }
+
     private void validateDataLogged(LogData logData, ArrayList<LogDataException> errors) {
         if (StringUtils.isBlank(logData.getDataLogged())) {
             errors.add(new LogDataException(MessageConstants.LOGDATA_MISSING));
         }
+    }
+
+    public BasicDBObject toBasicObject(LogData logData) {
+        BasicDBObject dbObject = new BasicDBObject();
+        dbObject.put(LogData.APP_CODE, logData.getAppCode());
+        dbObject.put(LogData.TIMESTAMP, logData.getTimestamp().getTime());
+        dbObject.put(LogData.LOG_TYPE, logData.getLogType().getDescription());
+        dbObject.put(LogData.DATA_LOGGED, logData.getDataLogged());
+        dbObject.put(LogData.CUSTUMER_ID, logData.getCustumerID());
+        return dbObject;
     }
 }

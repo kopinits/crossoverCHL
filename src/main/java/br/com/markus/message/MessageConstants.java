@@ -8,6 +8,7 @@ public final class MessageConstants {
     public static final String LOGTYPE_MISSING = "LogType is missing";
     public static final String TIMESTAMP_MISSING = "Timestamp is missing";
     public static final String LOGDATA_MISSING = "LoggedData is missing";
+    public static final String CUSTUMER_ID_MISSING = "CustumeriD is missing";
 
     public static final String GENERIC_ERROR = "Your request could not be handled. Try again later";
 }

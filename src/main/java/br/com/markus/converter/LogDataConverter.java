@@ -1,34 +1,22 @@
-package br.com.markus.converter.impl;
-
-import br.com.markus.converter.ILogDataConverter;
-import br.com.markus.enuns.LogTypeEnum;
-import br.com.markus.model.LogData;
-import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Date;
+package br.com.markus.converter;
 
 /**
  * Classe responsável por converter a solicitação em formato JSON para o bean Transacao
  *
  * @author Markus Kopinits
  */
-@Component
-public class LogDataConverter implements ILogDataConverter {
-    public LogDataConverter() {
-    }
 
-    /**
+public class LogDataConverter  {
+
+/*
+    *//**
      * Method responsable for convertion of a JSON data to  LogData entity
      *
      * @param logDataString json of the logdata entity
      * @return LogData entity
      * @throws Exception
      * @see LogDataConverter
-     */
+     *//*
     @Override
     public LogData toLogData(String logDataString) throws Exception {
         if (StringUtils.isNotBlank(logDataString)) {
@@ -47,14 +35,14 @@ public class LogDataConverter implements ILogDataConverter {
         return null;
     }
 
-    /**
+    *//**
      * Method responsable for convertion of a LogData entity to JSON
      *
      * @param logData entity
      * @return json of the logdata entity
      * @throws Exception
      * @see LogDataConverter
-     */
+     *//*
     @Override
     public String fromLogData(LogData logData) throws Exception {
         return new JSONObject(logData.toString()).toString();
@@ -71,20 +59,33 @@ public class LogDataConverter implements ILogDataConverter {
         return result.toString();
     }
 
+    @Override
+    public BasicDBObject toBasicObject(LogData logData) {
+        BasicDBObject dbObject = new BasicDBObject();
+        dbObject.put(LogData.APP_CODE, logData.getAppCode());
+        dbObject.put(LogData.TIMESTAMP, logData.getTimestamp().getTime());
+        dbObject.put(LogData.LOG_TYPE, logData.getLogType().getDescription());
+        dbObject.put(LogData.DATA_LOGGED, logData.getDataLogged());
+        dbObject.put(LogData.CUSTUMER_ID, logData.getCustumerID());
+        return dbObject;
+    }
+
     private LogData populateEntityValues(String jsonString) throws JSONException {
         LogData logData = new LogData();
         if (StringUtils.isNotBlank(jsonString)) {
             try {
+
                 JSONObject jsonObject = new JSONObject(jsonString);
                 logData.setAppCode(jsonObject.get(LogData.APP_CODE).toString());
                 logData.setAppCode(jsonObject.get(LogData.APP_CODE).toString());
                 logData.setDataLogged(jsonObject.get(LogData.DATA_LOGGED).toString());
                 logData.setLogType(LogTypeEnum.from(jsonObject.get(LogData.LOG_TYPE).toString()));
                 logData.setTimestamp(new Date(Long.valueOf(jsonObject.get(LogData.TIMESTAMP).toString())));
+                logData.setCustumerID(jsonObject.get(LogData.CUSTUMER_ID).toString());
             } catch (JSONException e) {
                 return null;
             }
         }
         return logData;
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
-package br.com.markus.business;
+package br.com.markus.service;
 
 
-import br.com.markus.LogDataTest;
+import br.com.markus.ApplicationTests;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.exception.LogDataException;
 import br.com.markus.message.MessageConstants;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,21 +20,21 @@ import java.util.List;
  * @author Markus Kopinits
  */
 
-public class LogDataBusinessTest extends LogDataTest{
+public class ServiceTest extends ApplicationTests{
 
 
     @Autowired
-    private ILogDataBusiness logDataBusiness;
+    private LogDataService dataService;
 
     @Test
     public void testInvalidLogData() {
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(new LogData());
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(new LogData());
         assert exceptions.size() == 4;
     }
 
     @Test
     public void testValidLogData() {
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(createValidLogData());
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(createValidLogData());
         assert exceptions.isEmpty();
     }
 
@@ -41,7 +42,7 @@ public class LogDataBusinessTest extends LogDataTest{
     public void testAppCodeNull() {
         LogData logData = createValidLogData();
         logData.setAppCode(null);
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(logData);
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
         assert exceptions.size() == 1;
         assert exceptions.get(0).getMessage().equals(MessageConstants.APPCODE_MISSING);
     }
@@ -50,7 +51,7 @@ public class LogDataBusinessTest extends LogDataTest{
     public void testTimestampNull() {
         LogData logData = createValidLogData();
         logData.setTimestamp(null);
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(logData);
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
         assert exceptions.size() == 1;
         assert exceptions.get(0).getMessage().equals(MessageConstants.TIMESTAMP_MISSING);
     }
@@ -59,7 +60,7 @@ public class LogDataBusinessTest extends LogDataTest{
     public void testLogTypeNull() {
         LogData logData = createValidLogData();
         logData.setLogType(null);
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(logData);
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
         assert exceptions.size() == 1;
         assert exceptions.get(0).getMessage().equals(MessageConstants.LOGTYPE_MISSING);
     }
@@ -68,22 +69,42 @@ public class LogDataBusinessTest extends LogDataTest{
     public void testLoggedDataNull() {
         LogData logData = createValidLogData();
         logData.setDataLogged(null);
-        ArrayList<LogDataException> exceptions = logDataBusiness.validateLogData(logData);
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
         assert exceptions.size() == 1;
         assert exceptions.get(0).getMessage().equals(MessageConstants.LOGDATA_MISSING);
     }
 
+
+    @Test
+    public void testCustumerIDNull() {
+        LogData logData = createValidLogData();
+        logData.setCustumerID(null);
+        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
+        assert exceptions.size() == 1;
+        assert exceptions.get(0).getMessage().equals(MessageConstants.CUSTUMER_ID_MISSING);
+    }
+
     @Test
     public void testInsertLogData() {
-        logDataBusiness.insertLogData(createValidLogData());
-        List<LogData> logData = logDataBusiness.getLogData(LogTypeEnum.CSTM_PRDT_VIEW);
+        dataService.saveLogData(createValidLogData());
+        List<LogData> logData = dataService.getLogData(LogTypeEnum.CSTM_PRDT_VIEW);
         assert logData.size() == 1;
     }
 
     @Test
     public void testInsertLogDataJsonReturn() {
-        logDataBusiness.insertLogData(createValidLogData());
-        String json = logDataBusiness.getJSONLogData(LogTypeEnum.CSTM_PRDT_VIEW);
+        dataService.saveLogData(createValidLogData());
+        String json = dataService.getJSONLogData(LogTypeEnum.CSTM_PRDT_VIEW);
         assert StringUtils.isNotBlank(json);
+    }
+
+    private LogData createValidLogData() {
+        LogData logData = new LogData();
+        logData.setAppCode("gu4a");
+        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW);
+        logData.setTimestamp(new Date());
+        logData.setDataLogged("Iphone 6");
+        logData.setCustumerID("10023FA34");
+        return logData;
     }
 }

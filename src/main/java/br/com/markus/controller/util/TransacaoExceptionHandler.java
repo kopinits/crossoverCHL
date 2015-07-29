@@ -1,4 +1,4 @@
-package br.com.markus.webservice.util;
+package br.com.markus.controller.util;
 
 import br.com.markus.exception.LogDataException;
 import br.com.markus.exception.MultipleLogDataException;
