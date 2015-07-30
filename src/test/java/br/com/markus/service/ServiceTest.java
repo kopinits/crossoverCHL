@@ -2,17 +2,15 @@ package br.com.markus.service;
 
 
 import br.com.markus.ApplicationTests;
+import br.com.markus.dto.LogaDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
-import br.com.markus.exception.LogDataException;
+import br.com.markus.exception.MultipleLogDataException;
 import br.com.markus.message.MessageConstants;
-import br.com.markus.model.LogData;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
+import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Test cases for LogDataBusiness
@@ -27,82 +25,82 @@ public class ServiceTest extends ApplicationTests{
     private LogDataService dataService;
 
     @Test
-    public void testInvalidLogData() {
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(new LogData());
-        assert exceptions.size() == 4;
+    public void testInvalidLogData() throws UnknownHostException {
+       try{
+           dataService.saveLogData(new LogaDataDTO());
+       }catch (MultipleLogDataException e){
+           assert e.getExceptions().size() == 4;
+       }
     }
 
     @Test
-    public void testValidLogData() {
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(createValidLogData());
-        assert exceptions.isEmpty();
+    public void testValidLogData() throws UnknownHostException {
+        try{
+            dataService.saveLogData(createValidLogData());
+        }catch (MultipleLogDataException e){
+            assert e.getExceptions().isEmpty();
+        }
     }
 
     @Test
-    public void testAppCodeNull() {
-        LogData logData = createValidLogData();
+    public void testAppCodeNull() throws UnknownHostException {
+        LogaDataDTO logData = createValidLogData();
         logData.setAppCode(null);
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
-        assert exceptions.size() == 1;
-        assert exceptions.get(0).getMessage().equals(MessageConstants.APPCODE_MISSING);
+        verifyReturnedError(logData, MessageConstants.APPCODE_MISSING);
     }
 
     @Test
-    public void testTimestampNull() {
-        LogData logData = createValidLogData();
+    public void testTimestampNull() throws UnknownHostException {
+        LogaDataDTO logData = createValidLogData();
         logData.setTimestamp(null);
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
-        assert exceptions.size() == 1;
-        assert exceptions.get(0).getMessage().equals(MessageConstants.TIMESTAMP_MISSING);
+        verifyReturnedError(logData, MessageConstants.TIMESTAMP_MISSING);
     }
 
     @Test
-    public void testLogTypeNull() {
-        LogData logData = createValidLogData();
+    public void testLogTypeNull() throws UnknownHostException {
+        LogaDataDTO logData = createValidLogData();
         logData.setLogType(null);
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
-        assert exceptions.size() == 1;
-        assert exceptions.get(0).getMessage().equals(MessageConstants.LOGTYPE_MISSING);
+        verifyReturnedError(logData, MessageConstants.LOGTYPE_MISSING);
     }
 
     @Test
-    public void testLoggedDataNull() {
-        LogData logData = createValidLogData();
+    public void testLoggedDataNull() throws UnknownHostException {
+        LogaDataDTO logData = createValidLogData();
         logData.setDataLogged(null);
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
-        assert exceptions.size() == 1;
-        assert exceptions.get(0).getMessage().equals(MessageConstants.LOGDATA_MISSING);
+        verifyReturnedError(logData, MessageConstants.LOGDATA_MISSING);
     }
 
 
     @Test
-    public void testCustumerIDNull() {
-        LogData logData = createValidLogData();
+    public void testCustumerIDNull() throws UnknownHostException {
+        LogaDataDTO logData = createValidLogData();
         logData.setCustumerID(null);
-        ArrayList<LogDataException> exceptions = dataService.validateLogData(logData);
-        assert exceptions.size() == 1;
-        assert exceptions.get(0).getMessage().equals(MessageConstants.CUSTUMER_ID_MISSING);
+        verifyReturnedError(logData, MessageConstants.CUSTUMER_ID_MISSING);
     }
 
+    private void verifyReturnedError(LogaDataDTO logData, String messageError) throws UnknownHostException {
+        try {
+            dataService.saveLogData(logData);
+        } catch (MultipleLogDataException e) {
+            assert e.getExceptions().size() == 1;
+            assert e.getExceptions().iterator().next().getMessage().equals(messageError);
+        }
+    }
+/*
     @Test
-    public void testInsertLogData() {
+    public void testInsertLogData() throws UnknownHostException {
         dataService.saveLogData(createValidLogData());
-        List<LogData> logData = dataService.getLogData(LogTypeEnum.CSTM_PRDT_VIEW);
+        List<LogData> logData = dataService.queryLogData(LogTypeEnum.CSTM_PRDT_VIEW);
         assert logData.size() == 1;
-    }
+    }*/
 
-    @Test
-    public void testInsertLogDataJsonReturn() {
-        dataService.saveLogData(createValidLogData());
-        String json = dataService.getJSONLogData(LogTypeEnum.CSTM_PRDT_VIEW);
-        assert StringUtils.isNotBlank(json);
-    }
 
-    private LogData createValidLogData() {
-        LogData logData = new LogData();
+
+    private LogaDataDTO createValidLogData() {
+        LogaDataDTO logData = new LogaDataDTO();
         logData.setAppCode("gu4a");
-        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW);
-        logData.setTimestamp(new Date());
+        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
+        logData.setTimestamp(String.valueOf(new Date().getTime()));
         logData.setDataLogged("Iphone 6");
         logData.setCustumerID("10023FA34");
         return logData;

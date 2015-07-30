@@ -1,48 +1,72 @@
 Crossover Challenge for Markus Kopinits
 
-Server used:
-JDK  version used:1.7
-Maven version used: 3.1.1
+The development envoiroment configurationA was:
 
-All test cases can run trhough: mvn test
+JDK7 (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
+Apache Maven 3.3.3 (https://maven.apache.org/download.cgi)
+MongoDB (https://www.mongodb.org/downloads)
+About MongoDB:
 
-Tpo test the services, I recommend using GoogleChrome plugin RestEasy.
+It's necessary to install mongoDB.
+Linux: https://docs.mongodb.org/manual/administration/install-on-linux/
+Windows: https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
 
-There are validantion related to field required. All fields are required
-To register a new log, the input format is:
-{
-   "appCode": "gu4a",
-    "timestamp": 1438133302135,
-    "logType": "CUSTUMER_PRODUCT_VIEW",
-    "dataLogged": "Iphone 6"
-}
+After instalation, start the mongodb server
+/MongoDB/Server/3.0/bin/mongod.exe (or equivalent)
 
-To make a query for geristered logdata, the input format is:
-{
-    "logType": "CUSTUMER_PRODUCT_VIEW",
-}
+Commands to run and install the application:
+
+git clone https://github.com/kopints/markusCHL
+cd .\markusCHL
+mvn clean install
+mvn spring-boot:run
+
+Services:
+To test the services, I recommend using GoogleChrome plugin Advanced RestClient.
+All fields are required to save the logdata
+
+
+Save LogData
+http://localhost:8034/markusCHL/saveLog
+
+Input format:
+{"appCode":"gu4a2","timestamp":1438204527704,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 6","custumerID":"10023FA34"}
+
+Query LogData
+http://localhost:8034/markusCHL/queryLog
+
+Input format:
+{"timestampFrom":1438204527704,"timestampTo":1438204527704,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"}
 
 The logType has a list of valid data. They are:
-	CUSTUMER_PRODUCT_VIEW
-	CUSTUME_SEARCH_DONE
+	CSTM_PRDT_VIEW
+	CSTM_SRCH_DONE
 	APPL_INFO_LOG
 	APPL_WARN_LOG
 	APPL_DEBUG_LOG
 	APPL_ERROR_LOG
 	APPL_FATAL_LOG
 
-The logType CUSTUMER_PRODUCT_VIEW is for all products that was saw by the custumers
-The logType CUSTUME_SEARCH_DONE is for all searches made by the custumers
+The logType CSTM_PRDT_VIEW is for all products that was saw by the custumers
+The logType CSTM_SRCH_DONE is for all searches made by the custumers
 The logType APPL_INFO_LOG is for all INFO logs raised by the application
 The logType APPL_WARN_LOG is for all WARN logs raised by the application
 The logType APPL_DEBUG_LOG is for all DEBUG logs raised by the application
 The logType APPL_ERROR_LOG is for all ERROR logs raised by the application
 The logType APPL_FATAL_LOG is for all FATAL logs raised by the application
 
-To request the service for register a logData, the url is:
-http://localhost:7004/crossover/ws/register
 
-To request the service for query a logData for a specific logtype, the url is:
-http://localhost:7004/m4umarkus/ws/query
+Final Consideratioins:
 
-The respose for a query will be empty, if no resuts found, or a json with all results founds
+ The file /crossoverCHL/src/main/resources/application.properties
+ and /crossoverCHL/src/test/resources/application.properties, has informations
+ related mongodb configurations and the application server port used.
+
+Any extra different settings of the following must be changed
+  the archives reported above:
+
+ server.port = 8034
+ server.contextPath=/markusCHL
+ mongodb.host = localhost
+ mongodb.port = 27017
+ mongodb.database = crossover

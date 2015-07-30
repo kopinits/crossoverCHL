@@ -4,8 +4,8 @@ package br.com.markus.enuns;
  * Enum que contém os tipos de pagamentos
  */
 public enum LogTypeEnum {
-    CSTM_PRDT_VIEW("CUSTUMER_PRODUCT_VIEW"),
-    CSTM_SRCH_DONE("CUSTUME_SEARCH_DONE"),
+    CSTM_PRDT_VIEW("CSTM_PRDT_VIEW"),
+    CSTM_SRCH_DONE("CSTM_SRCH_DONE"),
     APPL_INFO_LOG("APPL_INFO_LOG"),
     APPL_WARN_LOG("APPL_WARN_LOG"),
     APPL_DEBUG_LOG("APPL_DEBUG_LOG"),

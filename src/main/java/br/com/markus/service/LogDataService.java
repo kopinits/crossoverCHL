@@ -1,20 +1,24 @@
 package br.com.markus.service;
 
+import br.com.markus.converter.LogDataConverter;
 import br.com.markus.dao.LogDataDAO;
+import br.com.markus.dto.LogDataQueryDTO;
+import br.com.markus.dto.LogaDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.exception.LogDataException;
 import br.com.markus.exception.MultipleLogDataException;
 import br.com.markus.message.MessageConstants;
 import br.com.markus.model.LogData;
-import com.mongodb.BasicDBObject;
+import br.com.markus.model.LogDataQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
- * Business for LogData
+ * Service for LogData
  *
  * @author Markus Kopinits
  */
@@ -24,23 +28,24 @@ public class LogDataService {
     @Autowired
     private LogDataDAO logDataDAO;
 
+    @Autowired
+    private LogDataConverter converter;
 
-    public void saveLogData(LogData logData) {
+
+    public void saveLogData(LogaDataDTO logaDataDTO) throws UnknownHostException {
+        LogData logData = converter.toLogData(logaDataDTO);
         checkException(validateLogData(logData));
-        logDataDAO.registerLog(toBasicObject(logData));
+        logDataDAO.saveLogData(logData);
     }
 
 
-    public ArrayList<LogData> getLogData(LogTypeEnum logTypeEnum) {
-        return logDataDAO.retrieveLogData(logTypeEnum);
+    public ArrayList<LogData> queryLogData(LogDataQueryDTO logDataQueryDTO) throws UnknownHostException {
+        LogDataQuery logDataQuery = converter.toLogDataQuery(logDataQueryDTO);
+        return logDataDAO.queryLogData(logDataQuery);
     }
 
 
-    public String getJSONLogData(LogTypeEnum logTypeEnum) {
-        return logDataDAO.retrieveJsonLogData(logTypeEnum);
-    }
-
-    public ArrayList<LogDataException> validateLogData(LogData logData) {
+    private ArrayList<LogDataException> validateLogData(LogData logData) {
         ArrayList<LogDataException> errors = new ArrayList<LogDataException>();
         validateAppCode(logData, errors);
         validateTimestamp(logData, errors);
@@ -92,15 +97,5 @@ public class LogDataService {
         if (StringUtils.isBlank(logData.getDataLogged())) {
             errors.add(new LogDataException(MessageConstants.LOGDATA_MISSING));
         }
-    }
-
-    public BasicDBObject toBasicObject(LogData logData) {
-        BasicDBObject dbObject = new BasicDBObject();
-        dbObject.put(LogData.APP_CODE, logData.getAppCode());
-        dbObject.put(LogData.TIMESTAMP, logData.getTimestamp().getTime());
-        dbObject.put(LogData.LOG_TYPE, logData.getLogType().getDescription());
-        dbObject.put(LogData.DATA_LOGGED, logData.getDataLogged());
-        dbObject.put(LogData.CUSTUMER_ID, logData.getCustumerID());
-        return dbObject;
     }
 }

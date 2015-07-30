@@ -1,67 +1,50 @@
 package br.com.markus.converter;
 
+import br.com.markus.dto.LogDataQueryDTO;
+import br.com.markus.dto.LogaDataDTO;
+import br.com.markus.enuns.LogTypeEnum;
+import br.com.markus.model.LogData;
+import br.com.markus.model.LogDataQuery;
+import com.mongodb.BasicDBObject;
+import org.apache.commons.lang3.StringUtils;
+import org.bson.Document;
+import org.springframework.stereotype.Component;
+
+import java.sql.Date;
+
 /**
- * Classe responsável por converter a solicitação em formato JSON para o bean Transacao
+ * Converter between DTO and entity
  *
  * @author Markus Kopinits
  */
-
+@Component
 public class LogDataConverter  {
 
-/*
-    *//**
-     * Method responsable for convertion of a JSON data to  LogData entity
-     *
-     * @param logDataString json of the logdata entity
-     * @return LogData entity
-     * @throws Exception
-     * @see LogDataConverter
-     *//*
-    @Override
-    public LogData toLogData(String logDataString) throws Exception {
-        if (StringUtils.isNotBlank(logDataString)) {
-            return populateEntityValues(logDataString);
-        } else {
-            return null;
+
+    public LogData toLogData(LogaDataDTO logaDataDTO) {
+        LogData logData = new LogData();
+        logData.setAppCode(logaDataDTO.getAppCode());
+        logData.setCustumerID(logaDataDTO.getCustumerID());
+        logData.setDataLogged(logaDataDTO.getDataLogged());
+        logData.setLogType(LogTypeEnum.from(logaDataDTO.getLogType()));
+        if (StringUtils.isNotBlank(logaDataDTO.getTimestamp())) {
+            logData.setTimestamp(new Date(Long.valueOf(logaDataDTO.getTimestamp())));
         }
+        return logData;
     }
 
-    @Override
-    public LogTypeEnum toLogDataQuery(String logDataString) throws Exception {
-        if (StringUtils.isNotBlank(logDataString)) {
-            JSONObject jsonObject = new JSONObject(logDataString);
-            return LogTypeEnum.from(jsonObject.get(LogData.LOG_TYPE).toString());
-        }
-        return null;
+    public LogDataQuery toLogDataQuery(LogDataQueryDTO logaDataDTO) {
+        LogDataQuery logDataQuery = new LogDataQuery();
+        logDataQuery.setCustumerID(logaDataDTO.getCustumerID());
+        logDataQuery.setLogType(LogTypeEnum.from(logaDataDTO.getLogType()));
+        logDataQuery.setTimestampFrom(new Date(Long.valueOf(logaDataDTO.getTimestampFrom())));
+        logDataQuery.setTimestampTo(new Date(Long.valueOf(logaDataDTO.getTimestampTo())));
+        return logDataQuery;
     }
 
-    *//**
-     * Method responsable for convertion of a LogData entity to JSON
-     *
-     * @param logData entity
-     * @return json of the logdata entity
-     * @throws Exception
-     * @see LogDataConverter
-     *//*
-    @Override
-    public String fromLogData(LogData logData) throws Exception {
-        return new JSONObject(logData.toString()).toString();
-    }
 
-    @Override
-    public String fromLogData(ArrayList<LogData> logsData) throws Exception {
-        StringBuilder result = new StringBuilder("[");
-        for (LogData logData : logsData) {
-            result.append(fromLogData(logData));
-            result.append(",");
-        }
-        result.append("]");
-        return result.toString();
-    }
-
-    @Override
-    public BasicDBObject toBasicObject(LogData logData) {
-        BasicDBObject dbObject = new BasicDBObject();
+    public Document toBasicObject(LogData logData) {
+        Document dbObject = new Document();
         dbObject.put(LogData.APP_CODE, logData.getAppCode());
         dbObject.put(LogData.TIMESTAMP, logData.getTimestamp().getTime());
         dbObject.put(LogData.LOG_TYPE, logData.getLogType().getDescription());
@@ -69,23 +52,4 @@ public class LogDataConverter  {
         dbObject.put(LogData.CUSTUMER_ID, logData.getCustumerID());
         return dbObject;
     }
-
-    private LogData populateEntityValues(String jsonString) throws JSONException {
-        LogData logData = new LogData();
-        if (StringUtils.isNotBlank(jsonString)) {
-            try {
-
-                JSONObject jsonObject = new JSONObject(jsonString);
-                logData.setAppCode(jsonObject.get(LogData.APP_CODE).toString());
-                logData.setAppCode(jsonObject.get(LogData.APP_CODE).toString());
-                logData.setDataLogged(jsonObject.get(LogData.DATA_LOGGED).toString());
-                logData.setLogType(LogTypeEnum.from(jsonObject.get(LogData.LOG_TYPE).toString()));
-                logData.setTimestamp(new Date(Long.valueOf(jsonObject.get(LogData.TIMESTAMP).toString())));
-                logData.setCustumerID(jsonObject.get(LogData.CUSTUMER_ID).toString());
-            } catch (JSONException e) {
-                return null;
-            }
-        }
-        return logData;
-    }*/
 }

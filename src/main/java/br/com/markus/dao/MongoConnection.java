@@ -1,11 +1,11 @@
 package br.com.markus.dao;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 /**
  * Created by Markus on 29/07/2015.
  */
@@ -20,20 +20,17 @@ public class MongoConnection {
     @Value("${mongodb.database}")
     private String database;
 
-    @Value("${mongodb.usr}")
-    private String user;
-
-    @Value("${mongodb.pwd}")
-    private String password;
-
-    public MongoConnection() {
-    }
 
     public MongoClient getConnection(){
-        String addressDB = "mongodb://" + user + ":" + password + host + ":" + port;
-        MongoClientURI mongoClientURI = new MongoClientURI(addressDB);
+        MongoClientOptions options = MongoClientOptions.builder()
+                .connectionsPerHost(200)
+                .maxWaitTime(1000 * 60 * 3)
+                .minConnectionsPerHost(25)
+                .build();
 
-        MongoClient mongoClient = new MongoClient(mongoClientURI);
+        String addressDB = host + ":" + port;
+
+        MongoClient mongoClient = new MongoClient(new ServerAddress(addressDB), options);
         return mongoClient;
     }
 
@@ -41,5 +38,4 @@ public class MongoConnection {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(database);
         return mongoDatabase;
     }
-
 }
