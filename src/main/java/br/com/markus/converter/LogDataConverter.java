@@ -1,7 +1,7 @@
 package br.com.markus.converter;
 
-import br.com.markus.dto.LogDataQueryDTO;
 import br.com.markus.dto.LogDataDTO;
+import br.com.markus.dto.LogDataQueryDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.model.LogData;
 import br.com.markus.model.LogDataQuery;
@@ -10,6 +10,8 @@ import org.bson.Document;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Converter between DTO and entity
@@ -17,7 +19,7 @@ import java.sql.Date;
  * @author Markus Kopinits
  */
 @Component
-public class LogDataConverter  {
+public class LogDataConverter {
 
 
     public LogData toLogData(LogDataDTO logDataDTO) {
@@ -30,6 +32,20 @@ public class LogDataConverter  {
             logData.setTimestamp(new Date(Long.valueOf(logDataDTO.getTimestamp())));
         }
         return logData;
+    }
+
+    public ArrayList<LogDataDTO> fromLogData(Collection<LogData> dataCollection) {
+        ArrayList<LogDataDTO> results = new ArrayList<>();
+        for (LogData logData : dataCollection) {
+            LogDataDTO logDataDTO = new LogDataDTO();
+            logDataDTO.setAppCode(logData.getAppCode());
+            logDataDTO.setCustumerID(logData.getCustumerID());
+            logDataDTO.setDataLogged(logData.getDataLogged());
+            logDataDTO.setLogType(logData.getLogType().getDescription());
+            logDataDTO.setTimestamp(String.valueOf(logData.getTimestamp().getTime()));
+            results.add(logDataDTO);
+        }
+        return results;
     }
 
     public LogDataQuery toLogDataQuery(LogDataQueryDTO logaDataDTO) {

@@ -71,7 +71,7 @@ public class LogDataServiceTest extends ApplicationTests {
         logDataQueryDTO.setTimestampTo(String.valueOf(sf.parse("03/01/215").getTime()));
         logDataQueryDTO.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
         logDataQueryDTO.setCustumerID("10023FA34");
-        ArrayList<LogData> logDatas = dataService.queryLogData(logDataQueryDTO);
+        ArrayList<LogDataDTO> logDatas = dataService.queryLogData(logDataQueryDTO);
         assert logDatas.size() == 6;
 
     }
@@ -90,7 +90,7 @@ public class LogDataServiceTest extends ApplicationTests {
         logDataQueryDTO.setTimestampTo(String.valueOf(sf.parse("03/01/215").getTime()));
         logDataQueryDTO.setLogType(LogTypeEnum.APPL_ERROR_LOG.getDescription());
         logDataQueryDTO.setAppCode(validAppLogData.getAppCode());
-        ArrayList<LogData> logDatas = dataService.queryLogData(logDataQueryDTO);
+        ArrayList<LogDataDTO> logDatas = dataService.queryLogData(logDataQueryDTO);
         assert logDatas.size() == 2;
 
     }
@@ -175,7 +175,7 @@ public class LogDataServiceTest extends ApplicationTests {
         logDataQueryDTO.setTimestampTo(validLogData.getTimestamp());
         logDataQueryDTO.setLogType(validLogData.getLogType());
         logDataQueryDTO.setCustumerID(validLogData.getCustumerID());
-        List<LogData> logData = dataService.queryLogData(logDataQueryDTO);
+        List<LogDataDTO> logData = dataService.queryLogData(logDataQueryDTO);
         assert logData.size() == 1;
     }
 

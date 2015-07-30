@@ -28,7 +28,7 @@ public class LogDataController {
 
     @ResponseBody
     @RequestMapping(value = "/queryLog", method = RequestMethod.POST)
-    public Collection<LogData> queryLog(@RequestBody LogDataQueryDTO dataQueryDTO) {
+    public Collection<LogDataDTO> queryLog(@RequestBody LogDataQueryDTO dataQueryDTO) {
         try {
             return service.queryLogData(dataQueryDTO);
         } catch (Exception e) {

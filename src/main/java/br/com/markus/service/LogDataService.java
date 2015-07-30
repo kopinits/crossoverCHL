@@ -39,9 +39,9 @@ public class LogDataService {
     }
 
 
-    public ArrayList<LogData> queryLogData(LogDataQueryDTO logDataQueryDTO) throws UnknownHostException {
+    public ArrayList<LogDataDTO> queryLogData(LogDataQueryDTO logDataQueryDTO) throws UnknownHostException {
         LogDataQuery logDataQuery = converter.toLogDataQuery(logDataQueryDTO);
-        return logDataDAO.queryLogData(logDataQuery);
+        return converter.fromLogData(logDataDAO.queryLogData(logDataQuery));
     }
 
 
