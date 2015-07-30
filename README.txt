@@ -1,6 +1,6 @@
 Crossover Challenge for Markus Kopinits
 
-The development envoiroment configuration was:
+The development environment configuration was:
 
 JDK7 (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 Apache Maven 3.1.1 (https://maven.apache.org/download.cgi)
