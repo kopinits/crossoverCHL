@@ -1,0 +1,24 @@
+--Data to insert
+http://localhost:8034/markusCHL/saveLog
+
+--custumerID:10023FA34
+{"appCode":"gu4a","timestamp":1437361289578,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 6","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437447689706,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 5S","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437534089706,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 4S","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437620489706,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 5C","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437706889706,"logType":"CSTM_PRDT_VIEW","dataLogged":"Galaxy S6","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437793289706,"logType":"CSTM_SRCH_DONE","dataLogged":"Iphone Case","custumerID":"10023FA34"}
+{"appCode":"gu4a","timestamp":1437879689706,"logType":"CSTM_SRCH_DONE","dataLogged":"Iphone Hard Case","custumerID":"10023FA34"}
+
+--custumerID:100238834
+{"appCode":"gu4a","timestamp":1437966089706,"logType":"CSTM_PRDT_VIEW","dataLogged":"Iphone 5","custumerID":"100238834"}
+{"appCode":"gu4a","timestamp":1438052489706,"logType":"CSTM_SRCH_DONE","dataLogged":"Mouse Wireless","custumerID":"100238834"}
+
+--Queries
+http://localhost:8034/markusCHL/queryLog
+
+--custumerID:10023FA34
+{"timestampFrom":1437361289578,"timestampTo":1437534089706,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"}--3 results
+{"timestampFrom":1437793289706,"timestampTo":1437879689706,"logType":"CSTM_SRCH_DONE","custumerID":"10023FA34"}--2 results
+--custumerID:100238834
+{"timestampFrom":1437361289578,"timestampTo":1437447689706,"logType":"CSTM_SRCH_DONE","custumerID":"100238834"}--0 results
