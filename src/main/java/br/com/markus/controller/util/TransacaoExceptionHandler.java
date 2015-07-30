@@ -9,7 +9,7 @@ import br.com.markus.message.MessageConstants;
  */
 public class TransacaoExceptionHandler {
 
-    public static String retornaExcecao(Exception e){
+    public static String getExcetionError(Exception e){
         StringBuilder excecao = new StringBuilder();
         if (e instanceof MultipleLogDataException) {
             MultipleLogDataException me = (MultipleLogDataException) e;

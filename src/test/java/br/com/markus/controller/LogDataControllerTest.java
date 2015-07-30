@@ -1,6 +1,8 @@
 package br.com.markus.controller;
 
 import br.com.markus.ApplicationTests;
+import br.com.markus.dto.LogDataQueryDTO;
+import br.com.markus.dto.LogaDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.model.LogData;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Markus Kopinits
  */
-public class ControllerTest extends ApplicationTests {
+public class LogDataControllerTest extends ApplicationTests {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -33,20 +35,30 @@ public class ControllerTest extends ApplicationTests {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    @Test
+   /* @Test
     public void testQueryLog() throws Exception {
+        LogDataQueryDTO logData = new LogDataQueryDTO();
+        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
+        logData.setTimestampFrom(String.valueOf(new Date().getTime()));
+        logData.setTimestampTo(String.valueOf(new Date().getTime()));
+        logData.setCustumerID("10023FA34");
         mockMvc.perform(post("/queryLog")
-                .content(asJsonString(createValidLogData()))
+                .content(asJsonString(asJsonString(logData)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
+    }*/
 
     @Test
     public void testRegisterLog() throws Exception {
-        String content = asJsonString(createValidLogData());
+        LogaDataDTO logData = new LogaDataDTO();
+        logData.setAppCode("gu4a");
+        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
+        logData.setTimestamp(String.valueOf(new Date().getTime()));
+        logData.setDataLogged("Iphone 6");
+        logData.setCustumerID("10023FA34");
         mockMvc.perform(post("/saveLog")
-                .content(content)
+                .content(asJsonString(logData))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -60,15 +72,5 @@ public class ControllerTest extends ApplicationTests {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private LogData createValidLogData() {
-        LogData logData = new LogData();
-        logData.setAppCode("gu4a");
-        logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW);
-        logData.setTimestamp(new Date());
-        logData.setDataLogged("Iphone 6");
-        logData.setCustumerID("10023FA34");
-        return logData;
     }
 }

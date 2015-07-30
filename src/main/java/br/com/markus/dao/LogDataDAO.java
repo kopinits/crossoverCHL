@@ -23,7 +23,7 @@ import java.util.Date;
  * @author Markus Kopinits
  */
 @Component
-public class LogDataDAO{
+public class LogDataDAO {
 
     private static final String LOGDATA_COLLECTION_NAME = "logdata";
     @Autowired
@@ -68,10 +68,8 @@ public class LogDataDAO{
         query.put(LogData.CUSTUMER_ID, new BasicDBObject("$regex", ".*\\Q" + logDataQuery.getCustumerID() + "\\E.*")
                 .append("$options", "i"));
 
-        query.put(LogData.TIMESTAMP, new BasicDBObject("$elemMatch",
-                new BasicDBObject(LogData.TIMESTAMP, 1)
-                        .append("data", new BasicDBObject("$gte", logDataQuery.getTimestampFrom())
-                                .append("$lte", logDataQuery.getTimestampTo()))));
+        query.put(LogData.TIMESTAMP, new BasicDBObject("$gte", logDataQuery.getTimestampFrom().getTime()));
+        query.put(LogData.TIMESTAMP, new BasicDBObject("$lte", logDataQuery.getTimestampTo().getTime()));
         BasicDBObject orderBy = new BasicDBObject(LogData.TIMESTAMP, 1);
 
         return collection.find(query).sort(orderBy).iterator();
@@ -79,7 +77,7 @@ public class LogDataDAO{
 
     private MongoCollection getMongoCollection() {
         MongoClient mongoClient = mongoConnection.getConnection();
-        MongoDatabase mongoDatabase =  mongoConnection.getMongoDatabase(mongoClient);
+        MongoDatabase mongoDatabase = mongoConnection.getMongoDatabase(mongoClient);
 
         return mongoDatabase.getCollection(LOGDATA_COLLECTION_NAME);
     }

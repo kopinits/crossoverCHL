@@ -17,8 +17,8 @@ After instalation, start the mongodb server
 
 Commands to run and install the application:
 
-git clone https://github.com/kopints/crossoverCHL
-cd .\markusCHL
+git clone https://github.com/kopinits/crossoverCHL
+cd .\crossoverCHL
 mvn clean install
 mvn spring-boot:run
 
