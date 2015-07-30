@@ -3,7 +3,7 @@ package br.com.markus.dto;
 /**
  * Created by Markus on 29/07/2015.
  */
-public class LogaDataDTO {
+public class LogDataDTO {
     private String appCode;
     private String timestamp;
     private String logType;

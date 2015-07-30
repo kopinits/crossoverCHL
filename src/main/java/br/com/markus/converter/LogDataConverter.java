@@ -1,7 +1,7 @@
 package br.com.markus.converter;
 
 import br.com.markus.dto.LogDataQueryDTO;
-import br.com.markus.dto.LogaDataDTO;
+import br.com.markus.dto.LogDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.model.LogData;
 import br.com.markus.model.LogDataQuery;
@@ -20,14 +20,14 @@ import java.sql.Date;
 public class LogDataConverter  {
 
 
-    public LogData toLogData(LogaDataDTO logaDataDTO) {
+    public LogData toLogData(LogDataDTO logDataDTO) {
         LogData logData = new LogData();
-        logData.setAppCode(logaDataDTO.getAppCode());
-        logData.setCustumerID(logaDataDTO.getCustumerID());
-        logData.setDataLogged(logaDataDTO.getDataLogged());
-        logData.setLogType(LogTypeEnum.from(logaDataDTO.getLogType()));
-        if (StringUtils.isNotBlank(logaDataDTO.getTimestamp())) {
-            logData.setTimestamp(new Date(Long.valueOf(logaDataDTO.getTimestamp())));
+        logData.setAppCode(logDataDTO.getAppCode());
+        logData.setCustumerID(logDataDTO.getCustumerID());
+        logData.setDataLogged(logDataDTO.getDataLogged());
+        logData.setLogType(LogTypeEnum.from(logDataDTO.getLogType()));
+        if (StringUtils.isNotBlank(logDataDTO.getTimestamp())) {
+            logData.setTimestamp(new Date(Long.valueOf(logDataDTO.getTimestamp())));
         }
         return logData;
     }
@@ -35,6 +35,7 @@ public class LogDataConverter  {
     public LogDataQuery toLogDataQuery(LogDataQueryDTO logaDataDTO) {
         LogDataQuery logDataQuery = new LogDataQuery();
         logDataQuery.setCustumerID(logaDataDTO.getCustumerID());
+        logDataQuery.setAppCode(logaDataDTO.getAppCode());
         logDataQuery.setLogType(LogTypeEnum.from(logaDataDTO.getLogType()));
         logDataQuery.setTimestampFrom(new Date(Long.valueOf(logaDataDTO.getTimestampFrom())));
         logDataQuery.setTimestampTo(new Date(Long.valueOf(logaDataDTO.getTimestampTo())));

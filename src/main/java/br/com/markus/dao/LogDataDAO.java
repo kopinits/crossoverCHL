@@ -9,6 +9,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,9 @@ public class LogDataDAO {
             logData.setDataLogged(doc.get(LogData.DATA_LOGGED).toString());
             logData.setLogType(LogTypeEnum.from(doc.get(LogData.LOG_TYPE).toString()));
             logData.setTimestamp(new Date(Long.valueOf(doc.get(LogData.TIMESTAMP).toString())));
-            logData.setCustumerID(doc.get(LogData.CUSTUMER_ID).toString());
+            if (doc.get(LogData.CUSTUMER_ID) != null) {
+                logData.setCustumerID(doc.get(LogData.CUSTUMER_ID).toString());
+            }
             result.add(logData);
         }
         return result;
@@ -62,9 +65,14 @@ public class LogDataDAO {
         MongoCollection collection = getMongoCollection();
         BasicDBObject query = new BasicDBObject();
         query.put(LogData.LOG_TYPE, new BasicDBObject("$eq", logDataQuery.getLogType().getDescription()));
-        query.put(LogData.CUSTUMER_ID, new BasicDBObject("$eq", logDataQuery.getCustumerID()));
         query.put(LogData.TIMESTAMP, new BasicDBObject("$gte", logDataQuery.getTimestampFrom().getTime()));
         query.put(LogData.TIMESTAMP, new BasicDBObject("$lte", logDataQuery.getTimestampTo().getTime()));
+        if (StringUtils.isNotBlank(logDataQuery.getCustumerID())) {
+            query.put(LogData.CUSTUMER_ID, new BasicDBObject("$eq", logDataQuery.getCustumerID()));
+        }
+        if (StringUtils.isNotBlank(logDataQuery.getAppCode())) {
+            query.put(LogData.APP_CODE, new BasicDBObject("$eq", logDataQuery.getAppCode()));
+        }
         BasicDBObject orderBy = new BasicDBObject(LogData.TIMESTAMP, 1);
         return collection.find(query).sort(orderBy).iterator();
     }

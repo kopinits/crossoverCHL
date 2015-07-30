@@ -3,7 +3,7 @@ package br.com.markus.service;
 import br.com.markus.converter.LogDataConverter;
 import br.com.markus.dao.LogDataDAO;
 import br.com.markus.dto.LogDataQueryDTO;
-import br.com.markus.dto.LogaDataDTO;
+import br.com.markus.dto.LogDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.exception.LogDataException;
 import br.com.markus.exception.MultipleLogDataException;
@@ -32,8 +32,8 @@ public class LogDataService {
     private LogDataConverter converter;
 
 
-    public void saveLogData(LogaDataDTO logaDataDTO) throws UnknownHostException {
-        LogData logData = converter.toLogData(logaDataDTO);
+    public void saveLogData(LogDataDTO logDataDTO) throws UnknownHostException {
+        LogData logData = converter.toLogData(logDataDTO);
         checkException(validateLogData(logData));
         logDataDAO.saveLogData(logData);
     }

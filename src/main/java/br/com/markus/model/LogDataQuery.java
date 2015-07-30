@@ -12,6 +12,7 @@ public final class LogDataQuery {
     private Date timestampTo;
     private LogTypeEnum logType;
     private String custumerID;
+    private String appCode;
 
     public Date getTimestampFrom() {
         return timestampFrom;
@@ -43,5 +44,13 @@ public final class LogDataQuery {
 
     public void setCustumerID(String custumerID) {
         this.custumerID = custumerID;
+    }
+
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 }

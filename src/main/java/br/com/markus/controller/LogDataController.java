@@ -2,7 +2,7 @@ package br.com.markus.controller;
 
 import br.com.markus.controller.util.TransacaoExceptionHandler;
 import br.com.markus.dto.LogDataQueryDTO;
-import br.com.markus.dto.LogaDataDTO;
+import br.com.markus.dto.LogDataDTO;
 import br.com.markus.model.LogData;
 import br.com.markus.service.LogDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class LogDataController {
 
     @ResponseBody
     @RequestMapping(value = "/saveLog", method = RequestMethod.POST)
-    public void saveLog(@RequestBody LogaDataDTO logData) {
+    public void saveLog(@RequestBody LogDataDTO logData) {
         try {
             service.saveLogData(logData);
         } catch (Exception e) {

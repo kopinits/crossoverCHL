@@ -8,6 +8,7 @@ public class LogDataQueryDTO {
     private String timestampTo;
     private String logType;
     private String custumerID;
+    private String appCode;
 
     public String getTimestampFrom() {
         return timestampFrom;
@@ -39,5 +40,13 @@ public class LogDataQueryDTO {
 
     public void setCustumerID(String custumerID) {
         this.custumerID = custumerID;
+    }
+
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 }

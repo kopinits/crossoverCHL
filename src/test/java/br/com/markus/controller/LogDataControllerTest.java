@@ -1,7 +1,8 @@
 package br.com.markus.controller;
 
 import br.com.markus.ApplicationTests;
-import br.com.markus.dto.LogaDataDTO;
+import br.com.markus.dto.LogDataDTO;
+import br.com.markus.dto.LogDataQueryDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class LogDataControllerTest extends ApplicationTests {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-   /* @Test
+   @Test
     public void testQueryLog() throws Exception {
         LogDataQueryDTO logData = new LogDataQueryDTO();
         logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
@@ -41,15 +42,15 @@ public class LogDataControllerTest extends ApplicationTests {
         logData.setTimestampTo(String.valueOf(new Date().getTime()));
         logData.setCustumerID("10023FA34");
         mockMvc.perform(post("/queryLog")
-                .content(asJsonString(asJsonString(logData)))
+                .content(asJsonString(logData))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }*/
+    }
 
     @Test
     public void testRegisterLog() throws Exception {
-        LogaDataDTO logData = new LogaDataDTO();
+        LogDataDTO logData = new LogDataDTO();
         logData.setAppCode("gu4a");
         logData.setLogType(LogTypeEnum.CSTM_PRDT_VIEW.getDescription());
         logData.setTimestamp(String.valueOf(new Date().getTime()));

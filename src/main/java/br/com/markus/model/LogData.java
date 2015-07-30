@@ -1,6 +1,8 @@
 package br.com.markus.model;
 
 import br.com.markus.enuns.LogTypeEnum;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.Date;
 
@@ -69,5 +71,33 @@ public final class LogData {
                 ","+ DATA_LOGGED +"='" +  dataLogged + '\'' +
                 ","+ CUSTUMER_ID +"='" +  custumerID + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LogData logData = (LogData) o;
+
+        return new EqualsBuilder()
+                .append(getAppCode(), logData.getAppCode())
+                .append(getTimestamp(), logData.getTimestamp())
+                .append(getLogType(), logData.getLogType())
+                .append(getDataLogged(), logData.getDataLogged())
+                .append(getCustumerID(), logData.getCustumerID())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getAppCode())
+                .append(getTimestamp())
+                .append(getLogType())
+                .append(getDataLogged())
+                .append(getCustumerID())
+                .toHashCode();
     }
 }

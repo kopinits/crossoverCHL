@@ -12,6 +12,13 @@ It's necessary to install mongoDB.
 Linux: https://docs.mongodb.org/manual/administration/install-on-linux/
 Windows: https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
 
+Install it on root path.
+
+After installation, create this structure:
+/data/db
+
+It's where all data will be stored by mongodb.
+
 After instalation, start the mongodb server
 /{installDir}/bin/mongod.exe
 
