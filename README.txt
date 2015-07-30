@@ -1,10 +1,11 @@
 Crossover Challenge for Markus Kopinits
 
-The development envoiroment configurationA was:
+The development envoiroment configuration was:
 
 JDK7 (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
-Apache Maven 3.3.3 (https://maven.apache.org/download.cgi)
+Apache Maven 3.1.1 (https://maven.apache.org/download.cgi)
 MongoDB (https://www.mongodb.org/downloads)
+
 About MongoDB:
 
 It's necessary to install mongoDB.
@@ -12,11 +13,11 @@ Linux: https://docs.mongodb.org/manual/administration/install-on-linux/
 Windows: https://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
 
 After instalation, start the mongodb server
-/MongoDB/Server/3.0/bin/mongod.exe (or equivalent)
+/{installDir}/bin/mongod.exe
 
 Commands to run and install the application:
 
-git clone https://github.com/kopints/markusCHL
+git clone https://github.com/kopints/crossoverCHL
 cd .\markusCHL
 mvn clean install
 mvn spring-boot:run
@@ -24,7 +25,6 @@ mvn spring-boot:run
 Services:
 To test the services, I recommend using GoogleChrome plugin Advanced RestClient.
 All fields are required to save the logdata
-
 
 Save LogData
 http://localhost:8034/markusCHL/saveLog
@@ -63,7 +63,7 @@ Final Consideratioins:
  related mongodb configurations and the application server port used.
 
 Any extra different settings of the following must be changed
-  the archives reported above:
+  the files reported above:
 
  server.port = 8034
  server.contextPath=/markusCHL
