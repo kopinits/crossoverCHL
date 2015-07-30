@@ -20,15 +20,15 @@
 --Queries -> http://localhost:8034/markusCHL/queryLog
 
 --custumerID:10023FA34
-{"timestampFrom":1437361289578,"timestampTo":1437534089706,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"}--3 results
-{"timestampFrom":1437793289706,"timestampTo":1437879689706,"logType":"CSTM_SRCH_DONE","custumerID":"10023FA34"}--2 results
-{"timestampFrom":1437361289578,"timestampTo":1437706889706,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"}--5 results
+{"timestampFrom":1437361289578,"timestampTo":1437534089706,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"} --3 results
+{"timestampFrom":1437793289706,"timestampTo":1437879689706,"logType":"CSTM_SRCH_DONE","custumerID":"10023FA34"} --2 results
+{"timestampFrom":1437361289578,"timestampTo":1437706889706,"logType":"CSTM_PRDT_VIEW","custumerID":"10023FA34"} --5 results
 
 --custumerID:100238834
-{"timestampFrom":1437361289578,"timestampTo":1437447689706,"logType":"CSTM_SRCH_DONE","custumerID":"100238834"}--0 results
+{"timestampFrom":1437361289578,"timestampTo":1437447689706,"logType":"CSTM_SRCH_DONE","custumerID":"100238834"} --0 results
 
 --appCode: AppCodeA
-{"timestampFrom":1437361289578,"timestampTo":1437879689706,"logType":"APPL_ERROR_LOG","appCode":"AppCodeA"}--1 results
+{"timestampFrom":1437361289578,"timestampTo":1437879689706,"logType":"APPL_ERROR_LOG","appCode":"AppCodeA"} --1 results
 
 --All apps
-{"timestampFrom":1437361289578,"timestampTo":1437879689706,"logType":"APPL_ERROR_LOG"}--2 results
+{"timestampFrom":1437361289578,"timestampTo":1437879689706,"logType":"APPL_ERROR_LOG"} --2 results
