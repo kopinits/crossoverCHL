@@ -59,28 +59,19 @@ public class LogDataDAO {
     }
 
     private MongoCursor<Document> findLogDatas(LogDataQuery logDataQuery) throws UnknownHostException {
-
         MongoCollection collection = getMongoCollection();
-
         BasicDBObject query = new BasicDBObject();
-        query.put(LogData.LOG_TYPE, new BasicDBObject("$regex", ".*\\Q" + logDataQuery.getLogType().getDescription() + "\\E.*")
-                .append("$options", "i"));
-        query.put(LogData.CUSTUMER_ID, new BasicDBObject("$regex", ".*\\Q" + logDataQuery.getCustumerID() + "\\E.*")
-                .append("$options", "i"));
-
+        query.put(LogData.LOG_TYPE, new BasicDBObject("$eq", logDataQuery.getLogType().getDescription()));
+        query.put(LogData.CUSTUMER_ID, new BasicDBObject("$eq", logDataQuery.getCustumerID()));
         query.put(LogData.TIMESTAMP, new BasicDBObject("$gte", logDataQuery.getTimestampFrom().getTime()));
         query.put(LogData.TIMESTAMP, new BasicDBObject("$lte", logDataQuery.getTimestampTo().getTime()));
         BasicDBObject orderBy = new BasicDBObject(LogData.TIMESTAMP, 1);
-
         return collection.find(query).sort(orderBy).iterator();
     }
 
     private MongoCollection getMongoCollection() {
         MongoClient mongoClient = mongoConnection.getConnection();
         MongoDatabase mongoDatabase = mongoConnection.getMongoDatabase(mongoClient);
-
         return mongoDatabase.getCollection(LOGDATA_COLLECTION_NAME);
     }
-
-
 }

@@ -1,10 +1,8 @@
 package br.com.markus.controller;
 
 import br.com.markus.ApplicationTests;
-import br.com.markus.dto.LogDataQueryDTO;
 import br.com.markus.dto.LogaDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
-import br.com.markus.model.LogData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;

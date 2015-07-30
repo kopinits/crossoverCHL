@@ -5,7 +5,6 @@ import br.com.markus.dto.LogaDataDTO;
 import br.com.markus.enuns.LogTypeEnum;
 import br.com.markus.model.LogData;
 import br.com.markus.model.LogDataQuery;
-import com.mongodb.BasicDBObject;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Component;
